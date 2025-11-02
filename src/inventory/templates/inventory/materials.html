@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="d-flex">
+    <input class="form-control me-2" name="name" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price per unit</th>
+      <th scope="col">Unit of measurment</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for material in materials %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td><a href="#">{{ material.name }}</a></td>
+      <td>{{ material.unit_price }}</td>
+      <td>{{ material.unit }}</td>
+      <td>{{ material.quantity }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}
