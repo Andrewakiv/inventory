@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container py-5">
@@ -7,9 +8,13 @@
       <div class="card shadow-lg border-0 rounded-4">
         <div class="card-body p-4">
           <h3 class="mb-4 text-center">👤 Your Profile</h3>
-            <h5 class="card-title">Email: {{ user.email }}</h5>
-            <h5 class="card-title">Name: {{ user.name }}</h5>
-            <h5 class="card-title">Surname: {{ user.surname }}</h5>
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary mt-3">Save changes</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

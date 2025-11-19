@@ -14,3 +14,14 @@ class RegistrationForm(UserCreationForm):
         user.is_active = True
         user.save()
         return user
+
+
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'name', 'surname']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        print(self.fields, 'FIELDS DATA')
+        self.fields['email'].disabled = True

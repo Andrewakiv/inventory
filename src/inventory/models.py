@@ -14,6 +14,9 @@ class Material(models.Model):
     unit = models.CharField(max_length=10, choices=Unit.choices)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
+    def __str__(self):
+        return f'{self.name} - {self.unit_price} - {self.unit} - {self.quantity}'
+
 
 class Category(models.Model):
     code = models.CharField(max_length=100, unique=True)
@@ -21,3 +24,11 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.code} - {self.name}'
+
+
+class Item(models.Model):
+    title =  models.CharField(max_length=100)
+    category = models.ForeignKey(Category, related_name='categories', on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.title
