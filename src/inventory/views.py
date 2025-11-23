@@ -4,12 +4,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
+from .filters import MaterialFilter
 from .forms import MaterialForm
 from .models import Material
 
 
 def materials_view(request):
     materials = Material.objects.all()
+    my_filter = MaterialFilter(request.GET, queryset=materials)
+    materials = my_filter.qs
     return render(request, 'inventory/materials.html', {'materials': materials})
 
 @login_required
