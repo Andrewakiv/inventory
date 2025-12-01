@@ -2,29 +2,69 @@
 
 {% block content %}
 <form class="d-flex">
-    <input class="form-control me-2" name="name" value="{{ request.GET.name }}" type="search" placeholder="Search" aria-label="Search">
+    <input class="form-control me-2" name="name" value="{{ request.GET.name }}" type="search" placeholder="Search"
+           aria-label="Search">
     <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
 <table class="table table-striped">
-  <thead>
+    <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price per unit</th>
-      <th scope="col">Unit of measurment</th>
-      <th scope="col">Quantity</th>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price per unit</th>
+        <th scope="col">Unit of measurment</th>
+        <th scope="col">Quantity</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {% for material in materials %}
     <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td><a href="#">{{ material.name }}</a></td>
-      <td>{{ material.unit_price }}</td>
-      <td>{{ material.unit }}</td>
-      <td>{{ material.quantity }}</td>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="#">{{ material.name }}</a></td>
+        <td>{{ material.unit_price }}</td>
+        <td>{{ material.unit }}</td>
+        <td>{{ material.quantity }}</td>
     </tr>
     {% endfor %}
-  </tbody>
+    </tbody>
 </table>
+<div class="pagination d-flex justify-content-center mt-4">
+    <ul class="pagination">
+        {% if materials.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ materials.previous_page_number }}"
+            >Назад</a
+            >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Назад</span>
+        </li>
+        {% endif %}
+
+        {% for num in page_numbers %}
+        {% if num == '...' %}
+         <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        {% else %}
+        <li class="page-item {% if num == materials.number %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if materials.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ materials.next_page_number }}"
+            >Вперед</a
+            >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Вперед</span>
+        </li>
+        {% endif %}
+    </ul>
+</div>
 {% endblock content %}

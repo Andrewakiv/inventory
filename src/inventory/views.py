@@ -1,6 +1,5 @@
-from dataclasses import asdict
-
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -13,7 +12,18 @@ def materials_view(request):
     materials = Material.objects.all()
     my_filter = MaterialFilter(request.GET, queryset=materials)
     materials = my_filter.qs
-    return render(request, 'inventory/materials.html', {'materials': materials})
+
+    paginator = Paginator(materials, 1)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    elided_page_range = paginator.get_elided_page_range(
+        number=page_obj.number,
+        on_each_side=2,
+        on_ends=1
+    )
+
+    return render(request, 'inventory/materials.html',
+                  {'materials': page_obj, 'page_numbers': elided_page_range})
 
 @login_required
 def add_material_view(request):
